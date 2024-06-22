@@ -2,7 +2,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const { connection } = require("./Config/db");
-const { router } = require("./Routes/user.routes");
+const userRoutes = require("./Routes/user.routes");
+const chatRoutes = require("./Routes/chat.routes")
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 
 const app = express();
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(cors());
-app.use("/api/user", router);
+app.use("/api/user", userRoutes);
+app.use("/api/chat", chatRoutes);
 app.use(notFound);
 app.use(errorHandler);
