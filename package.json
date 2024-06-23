@@ -4,8 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node backend/.js",
+    "server": "nodemon backend/index.js",
+    "build": "npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
   },
+  "keywords": [
+    "chat-app",
+    "mern",
+    "socket.io"
+  ],
   "author": "Sanjay Verma",
   "license": "ISC",
   "dependencies": {

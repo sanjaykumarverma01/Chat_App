@@ -5,6 +5,7 @@ const userRoutes = require("./Routes/user.routes");
 const chatRoutes = require("./Routes/chat.routes");
 const messageRoutes = require("./Routes/message.routes");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
+const path = require("path");
 
 dotenv.config();
 connectDB();
@@ -16,11 +17,31 @@ app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
+// --------------------------deployment------------------------------
+
+const __dirname1 = path.resolve();
+
+console.log(__dirname1)
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "frontend/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running..");
+  });
+}
+
+// --------------------------deployment------------------------------
+
 // error handling
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
 
 const server = app.listen(PORT, console.log(`listening on Port :  ${PORT}`));
 
