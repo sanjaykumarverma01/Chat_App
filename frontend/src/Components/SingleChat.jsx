@@ -19,7 +19,9 @@ import io from "socket.io-client";
 import Lottie from "react-lottie";
 import animationData from "../Animations/typing.json";
 
-const ENDPOINT = "http://localhost:8080";
+// const ENDPOINT = "http://localhost:8080";
+const ENDPOINT = "chat-app-syzw.onrender.com";
+
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
