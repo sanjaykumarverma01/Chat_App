@@ -26,6 +26,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
+import { getSender } from "../../Config/ChatLogics";
+import NotificationBadge from 'react-notification-badge';
+import { Effect } from 'react-notification-badge';
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -35,7 +38,14 @@ const SideDrawer = () => {
 
   const toast = useToast();
   const navigate = useNavigate();
-  const { user, setSelectedChat, chats, setChats } = ChatState();
+  const {
+    user,
+    setSelectedChat,
+    chats,
+    setChats,
+    notifications,
+    setNotifications
+  } = ChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const logoutHandler = () => {
@@ -132,9 +142,31 @@ const SideDrawer = () => {
         <div>
           <Menu>
             <MenuButton p={1}>
+              <NotificationBadge
+                count={notifications.length}
+                effect={Effect.SCALE}
+              />
               <BellIcon fontSize="2xl" m={1} />
             </MenuButton>
-            {/* <MenuList></MenuList> */}
+            <MenuList pl={2}>
+              {!notifications.length && "No new messages"}
+              {notifications.map((notification) => (
+                <MenuItem
+                  key={notification._id}
+                  onClick={() => {
+                    setSelectedChat(notification.chat);
+                    setNotifications(notifications.filter((n) => n!== notification))
+                  }}
+                >
+                  {notification.chat.isGroupChat
+                    ? `New message in ${notification.chat.chatName}`
+                    : `New message from ${getSender(
+                        user,
+                        notification.chat.users
+                      )}`}
+                </MenuItem>
+              ))}
+            </MenuList>
           </Menu>
           <Menu>
             <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>

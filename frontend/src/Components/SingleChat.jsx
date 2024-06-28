@@ -19,8 +19,8 @@ import io from "socket.io-client";
 import Lottie from "react-lottie";
 import animationData from "../Animations/typing.json";
 
-// const ENDPOINT = "http://localhost:8080";
-const ENDPOINT = "chat-app-syzw.onrender.com";
+const ENDPOINT = "http://localhost:8080";
+// const ENDPOINT = "chat-app-syzw.onrender.com";
 
 var socket, selectedChatCompare;
 
@@ -34,7 +34,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const toast = useToast();
 
-  const { selectedChat, setSelectedChat, user } = ChatState();
+  const {
+    selectedChat,
+    setSelectedChat,
+    user,
+    notifications,
+    setNotifications,
+  } = ChatState();
 
   const defaultOptions = {
     loop: true,
@@ -99,6 +105,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
         // give notification
+        if (!notifications.includes(newMessageReceived)) {
+          setNotifications([newMessageReceived, ...notifications])
+          setFetchAgain(!fetchAgain)
+        }
       } else {
         setMessages([...messages, newMessageReceived]);
       }
