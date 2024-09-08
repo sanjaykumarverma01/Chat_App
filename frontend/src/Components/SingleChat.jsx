@@ -20,7 +20,7 @@ import Lottie from "react-lottie";
 import animationData from "../Animations/typing.json";
 
 // const ENDPOINT = "http://localhost:8080";
-const ENDPOINT = "chat-app-syzw.onrender.com";
+const ENDPOINT = "https://chat-app-syzw.onrender.com";
 
 var socket, selectedChatCompare;
 
